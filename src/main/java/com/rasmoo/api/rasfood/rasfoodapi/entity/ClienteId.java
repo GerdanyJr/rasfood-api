@@ -12,7 +12,8 @@ public class ClienteId implements Serializable{
     private String email;
     private String cpf;
 
-
+    public ClienteId(){}
+    
     public ClienteId(String email, String cpf) {
         this.email = email;
         this.cpf = cpf;
