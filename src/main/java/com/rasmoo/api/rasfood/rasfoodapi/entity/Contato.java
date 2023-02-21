@@ -1,6 +1,6 @@
-package com.rasmoo.api.rasfood.entity;
+package com.rasmoo.api.rasfood.rasfoodapi.entity;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Contato {
