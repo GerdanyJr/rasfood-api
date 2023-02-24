@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rasmoo.api.rasfood.rasfoodapi.entity.Cliente;
 import com.rasmoo.api.rasfood.rasfoodapi.entity.ClienteId;
+import com.rasmoo.api.rasfood.rasfoodapi.entity.Endereço;
 import com.rasmoo.api.rasfood.rasfoodapi.repository.ClienteRepository;
 
 @RequestMapping(value = "/cliente")

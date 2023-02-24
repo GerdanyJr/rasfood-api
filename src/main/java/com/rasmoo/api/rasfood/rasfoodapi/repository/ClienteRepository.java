@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rasmoo.api.rasfood.rasfoodapi.entity.Cliente;
 import com.rasmoo.api.rasfood.rasfoodapi.entity.ClienteId;
+import com.rasmoo.api.rasfood.rasfoodapi.entity.Endereço;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente,ClienteId> {
