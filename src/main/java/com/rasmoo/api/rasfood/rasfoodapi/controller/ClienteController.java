@@ -25,8 +25,7 @@ import com.rasmoo.api.rasfood.rasfoodapi.repository.ClienteRepository;
 public class ClienteController {
 
     @Autowired
-    public ClienteRepository clienteRepository;
-    
+    public ClienteRepository clienteRepository;    
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -43,6 +42,15 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(cliente.get());
+    }
+
+    @GetMapping("/endereços/{email}")
+    public ResponseEntity<List<Endereço>> consultarEndereçosPorEmail(@PathVariable("email")String email){
+        List<Endereço> endereços = clienteRepository.findEndereços(email);
+        if(endereços.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(endereços);
     }
 
     @PatchMapping("/{id}")
