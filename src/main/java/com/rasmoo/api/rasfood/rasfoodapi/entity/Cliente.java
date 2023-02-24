@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
@@ -15,10 +17,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "clientes")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Cliente implements Serializable {
     
     @EmbeddedId
-    private ClienteId clienteId;
+    private ClienteId clienteId = new ClienteId();
 
     private String nome;
 
