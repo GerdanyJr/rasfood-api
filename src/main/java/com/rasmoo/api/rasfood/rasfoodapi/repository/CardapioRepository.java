@@ -15,4 +15,7 @@ public interface CardapioRepository extends JpaRepository<Cardapio,Integer>{
 
     @Query(value = "SELECT * FROM cardapio c WHERE c.categoria_id = ?1 AND c.disponivel = true",nativeQuery = true)
     List<Cardapio> consultarPorCategoria(Integer categoria);
+
+    @Query(value = "SELECT c.nome AS nome,c.descricao AS descricao,c.valor AS valor,cat.nome AS nomeCategoria FROM cardapio c INNER JOIN categorias cat ON c.categoria_id = cat.id WHERE c.categoria_id = :id AND c.disponivel = true",nativeQuery = true)
+    List<CardapioProjection> consultarPorCategoriaProjection(Integer id);
 }

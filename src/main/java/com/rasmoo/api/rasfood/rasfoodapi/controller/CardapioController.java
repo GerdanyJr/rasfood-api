@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rasmoo.api.rasfood.rasfoodapi.dto.CardapioDto;
 import com.rasmoo.api.rasfood.rasfoodapi.entity.Cardapio;
+import com.rasmoo.api.rasfood.rasfoodapi.repository.CardapioProjection;
 import com.rasmoo.api.rasfood.rasfoodapi.repository.CardapioRepository;
 
 @RequestMapping(value = "/cardapio")
@@ -54,9 +55,9 @@ public class CardapioController {
         return ResponseEntity.status(HttpStatus.OK).body(cardapiosEncontrados);
     }
 
-    @GetMapping("/cardapio/{nome}/disponivel")
-    public ResponseEntity<List<CardapioDto>> encontrarTodos(@PathVariable("nome")String nome){
-        List<CardapioDto> cardapiosEncontrados = this.cardapioRepository.findAllByNome(nome);
+    @GetMapping("/cardapio/{id}/disponivel")
+    public ResponseEntity<List<CardapioProjection>> encontrarTodos(@PathVariable("id")Integer id){
+        List<CardapioProjection> cardapiosEncontrados = this.cardapioRepository.consultarPorCategoriaProjection(id);
         if (cardapiosEncontrados.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
