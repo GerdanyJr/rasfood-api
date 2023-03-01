@@ -42,7 +42,12 @@ public class EndereçoController {
         return ResponseEntity.status(HttpStatus.OK).body(endereçoEncontrado.get());
     }
 
-    @PatchMapping("/{id}")
+    @GetMapping("/cep/{cep}")
+    public ResponseEntity<List<Endereço>> consultarPorCep(@PathVariable("cep")String cep){
+        return ResponseEntity.status(HttpStatus.OK).body(endereçoRepository.findByCep(cep));
+    }
+
+    @PatchMapping("/1/{id}")
     public ResponseEntity<Endereço> atualizarEndereço(@PathVariable("id") Integer id,@RequestBody Endereço endereço) throws JsonMappingException{
         Optional<Endereço> endereçoEncontrado = endereçoRepository.findById(id);
         if(!endereçoEncontrado.isPresent()){

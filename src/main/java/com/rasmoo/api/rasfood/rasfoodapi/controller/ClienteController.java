@@ -48,7 +48,7 @@ public class ClienteController {
     public ResponseEntity<List<Endereço>> consultarEndereçosPorEmail(@PathVariable("email")String email){
         List<Endereço> endereços = clienteRepository.findEndereços(email);
         if(endereços.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(endereços);
     }
@@ -58,7 +58,7 @@ public class ClienteController {
         Optional<Cliente> clienteEncontrado = this.clienteRepository.findByEmailOrCpf(id);
         if(clienteEncontrado.isPresent()){
             objectMapper.updateValue(clienteEncontrado.get(),cliente);
-            return ResponseEntity.status(HttpStatus.OK).body(clienteEncontrado.get());
+            return ResponseEntity.status(HttpStatus.OK).body(this.clienteRepository.save(clienteEncontrado.get()));
         }
        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }

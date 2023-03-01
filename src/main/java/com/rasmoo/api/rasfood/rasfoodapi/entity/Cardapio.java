@@ -3,6 +3,8 @@ package com.rasmoo.api.rasfood.rasfoodapi.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +17,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "cardapio")
 public class Cardapio {
     
