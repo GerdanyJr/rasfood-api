@@ -32,21 +32,30 @@ public class CardapioController {
 
     @GetMapping
     public ResponseEntity<List<Cardapio>> consultarTodos() {
-        return ResponseEntity.status(HttpStatus.OK).body(cardapioRepository.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(this.cardapioRepository.findAll());
     }
 
     @GetMapping("/consultar/{id}")
     public ResponseEntity<Cardapio> consultarPorId(@PathVariable Integer id){
-        Optional<Cardapio> cardapioEncontrado = cardapioRepository.findById(id);
+        Optional<Cardapio> cardapioEncontrado = this.cardapioRepository.findById(id);
         if (!cardapioEncontrado.isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body(cardapioEncontrado.get());
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
+    @GetMapping("/categoria/{categoriaid}")
+    public ResponseEntity<List<Cardapio>> encontrarPorCategoria(@PathVariable("categoriaid")Integer categoriaid){
+        List<Cardapio> cardapiosEncontrados = this.cardapioRepository.consultarPorCategoria(categoriaid);
+        if (cardapiosEncontrados.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(cardapiosEncontrados);
+    }
+
     @PostMapping("/salvar")
     public ResponseEntity<Cardapio> salvar(@RequestBody Cardapio cardapio){
-        return ResponseEntity.status(HttpStatus.OK).body(cardapioRepository.save(cardapio));
+        return ResponseEntity.status(HttpStatus.OK).body(this.cardapioRepository.save(cardapio));
     }
 
     @PatchMapping("/{id}")
@@ -62,7 +71,7 @@ public class CardapioController {
 
     @DeleteMapping("/excluir/{id}")
     public ResponseEntity<Cardapio> excluir(@PathVariable("id")Integer id){
-        Optional<Cardapio> cardapioEncontrado = cardapioRepository.findById(id);
+        Optional<Cardapio> cardapioEncontrado = this.cardapioRepository.findById(id);
         if (!cardapioEncontrado.isPresent()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
