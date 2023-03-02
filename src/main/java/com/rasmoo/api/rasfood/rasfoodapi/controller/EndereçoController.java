@@ -1,9 +1,11 @@
 package com.rasmoo.api.rasfood.rasfoodapi.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -29,8 +32,9 @@ public class EndereçoController {
     private ObjectMapper objectMapper;
     
     @GetMapping
-    public ResponseEntity<List<Endereço>> consultarTodos(){
-        return ResponseEntity.status(HttpStatus.OK).body(endereçoRepository.findAll());
+    public ResponseEntity<Page<Endereço>> consultarTodos(@RequestParam("actualPage")Integer actualPage){
+        Pageable pageable = PageRequest.of(actualPage, 5);
+        return ResponseEntity.status(HttpStatus.OK).body(endereçoRepository.findAll(pageable));
     }
 
     @GetMapping("/{id}")
@@ -43,8 +47,9 @@ public class EndereçoController {
     }
 
     @GetMapping("/cep/{cep}")
-    public ResponseEntity<List<Endereço>> consultarPorCep(@PathVariable("cep")String cep){
-        return ResponseEntity.status(HttpStatus.OK).body(endereçoRepository.findByCep(cep));
+    public ResponseEntity<Page<Endereço>> consultarPorCep(@PathVariable("cep")String cep,@RequestParam("actualPage")Integer actualPage){
+        Pageable pageable = PageRequest.of(actualPage, 5);
+        return ResponseEntity.status(HttpStatus.OK).body(endereçoRepository.findByCep(cep,pageable));
     }
 
     @PatchMapping("/1/{id}")
