@@ -1,9 +1,12 @@
 package com.rasmoo.api.rasfood.rasfoodapi.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -30,8 +34,9 @@ public class ClienteController {
     private ObjectMapper objectMapper;
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> consultarTodos(){
-        return ResponseEntity.status(HttpStatus.OK).body(clienteRepository.findAll());
+    public ResponseEntity<Page<Cliente>> consultarTodos(@RequestParam("actualPage")Integer actualPage){
+        Pageable pageable = PageRequest.of(actualPage, 5);
+        return ResponseEntity.status(HttpStatus.OK).body(clienteRepository.findAll(pageable));
     }
 
     @GetMapping("/{email}/{cpf}")
@@ -45,8 +50,9 @@ public class ClienteController {
     }
 
     @GetMapping("/endereços/{email}")
-    public ResponseEntity<List<Endereço>> consultarEndereçosPorEmail(@PathVariable("email")String email){
-        List<Endereço> endereços = clienteRepository.findEndereços(email);
+    public ResponseEntity<Page<Endereço>> consultarEndereçosPorEmail(@PathVariable("email")String email,@Param("actualPage")Integer actualPage){
+        Pageable pageable = PageRequest.of(actualPage, 5);
+        Page<Endereço> endereços = clienteRepository.findEndereços(email,pageable);
         if(endereços.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
